@@ -59,3 +59,6 @@ efi/
 
 # QEMU
 NvVars
+
+# macOS
+.DS_Store
