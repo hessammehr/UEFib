@@ -3,13 +3,13 @@ CFLAGS := -target x86_64-windows-gnu -ffreestanding -fno-stack-protector -fno-as
 LDFLAGS := -Wl,--subsystem,efi_application -nostdlib
 OVMF_PATH := /opt/homebrew/share/qemu/edk2-x86_64-code.fd
 
-all: efi/boot/bootx86.efi
+all: efi/boot/bootx64.efi
 
 fib.o: fib.c
 	$(CC) $(CFLAGS) -c -o fib.o fib.c
 
-efi/boot/bootx86.efi: fib.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o efi/boot/bootx86.efi fib.o
+efi/boot/bootx64.efi: fib.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o efi/boot/bootx64.efi fib.o
 
-run: efi/boot/bootx86.efi
-	qemu-system-x86_64 -drive if=pflash,format=raw,readonly,file=$(OVMF_PATH) -drive format=raw,file=fat:rw:.
+run: efi/boot/bootx64.efi
+	qemu-system-x86_64 -drive if=pflash,format=raw,readonly=on,file=$(OVMF_PATH) -drive format=raw,file=fat:rw:.
